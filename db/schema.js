@@ -1,4 +1,7 @@
 import mongoose from "mongoose"
+import { disconnectDB } from "./db.js";
+import { connectDB } from "./db.js";
+
 const {Schema} = mongoose
 
 const pointSchema = new mongoose.Schema({ //defining point schema for geoJSON
@@ -13,7 +16,7 @@ const pointSchema = new mongoose.Schema({ //defining point schema for geoJSON
     }
   });
 
-const buisnessSchema = new Schema ({ //defining buisness schema
+const businessSchema = new Schema ({ //defining buisness schema
     name: String,
     category: String,
     location: pointSchema,
@@ -23,5 +26,14 @@ const buisnessSchema = new Schema ({ //defining buisness schema
     pendingDeal: String
 });
 
-const buisness = mongoose.model('buisness', buisnessSchema);
+const business = mongoose.model('buisness', businessSchema);
 
+await connectDB();
+
+business.create({
+    name: "OnlyGoesUp ltd.",
+    category: "fintech",
+
+})
+
+//disconnectDB();
