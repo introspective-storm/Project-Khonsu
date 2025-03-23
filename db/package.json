@@ -1,0 +1,14 @@
+{
+  "name": "db",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "This package contains the handling of mongodb, as well as mongoose models to ensure consistancy.",
+  "dependencies": {
+    "mongoose": "^8.12.2"
+  }
+}
