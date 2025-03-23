@@ -21,4 +21,7 @@ const buisnessSchema = new Schema ({ //defining buisness schema
     verified: Boolean,
     rating: Number,
     pendingDeal: String
-})
+});
+
+const buisness = mongoose.model('buisness', buisnessSchema);
+
