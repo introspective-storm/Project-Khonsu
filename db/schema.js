@@ -1,6 +1,4 @@
 import mongoose from "mongoose"
-import { disconnectDB } from "./db.js";
-import { connectDB } from "./db.js";
 
 const {Schema} = mongoose
 
@@ -28,12 +26,4 @@ const businessSchema = new Schema ({ //defining buisness schema
 
 const business = mongoose.model('buisness', businessSchema);
 
-await connectDB();
-
-business.create({
-    name: "OnlyGoesUp ltd.",
-    category: "fintech",
-
-})
-
-//disconnectDB();
+export default {business}
