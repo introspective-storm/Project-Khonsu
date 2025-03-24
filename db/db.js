@@ -3,94 +3,94 @@ import business from "./schema.js"
 const connectionString = process.env.MONGODB_CONNECTION || "mongodb://localhost:27017/project-khonsu"
 
 async function connectDB() {
-    await mongoose.connect(connectionString)
-}
-
-async function disconnectDB() {
-    await mongoose.disconnect()
-}
+    try{
+        await mongoose.connect(connectionString);
+        console.log("db connected");
+    } catch(err) {
+        console.log(err);
+        throw err;
+    }
+};
 
 async function addBusiness(name, category, location, deal, verified, rating, pendingDeal) {
     try {
         await connectDB();
-    } catch(error) {
-        console.log(`Something went wrong: ${error}`);
+        await business.create({
+            name: name,
+            category: category,
+            location: location,
+            deal: deal,
+            verified: verified,
+            rating: rating,
+            pendingDeal: pendingDeal
+        });
+    } catch (error) {
+        console.log("something went wrong", error);
+    } finally {
+        try {
+            await mongoose.disconnect();
+            console.log("db disconnected");
+        } catch (error) {
+            console.log("Something went wrong disconnected", error);
+        }
     }
-    business.create({
-        name: name,
-        category: category,
-        location: location,
-        deal: deal,
-        verified: verified,
-        rating: rating,
-        pendingDeal: pendingDeal
-    });
-    await disconnectDB();
 };
 
-async function findBusiness(name, category, location, deal, verified, rating, pendingDeal) {
+async function findBusiness(query) { //query is an object
     try {
         await connectDB();
-    } catch(error) {
-        console.log(`Something went wrong: ${error}`);
+        const foundBusiness = await business.find(query);
+        console.log(JSON.stringify(foundBusiness));
+    } catch (error) {
+        console.log("something went wrong", error);
+    } finally {
+        try {
+            await mongoose.disconnect();
+            console.log("db disconnected");
+        } catch (error) {
+            console.log("Something went wrong disconnected", error);
+        }
     }
-    business.find({
-        name: name,
-        category: category,
-        location: location,
-        deal: deal,
-        verified: verified,
-        rating: rating,
-        pendingDeal: pendingDeal
-    });
-    await disconnectDB();
 };
 
-async function modifyBusiness(name, category, location, deal, verified, rating, pendingDeal,
-                              nameUpdate, categoryUpdate, locationUpdate, dealUpdate, verifiedUpdate, 
-                              ratingUpdate, pendingDealUpdate) {
+async function modifyBusiness(query, update) { // query and update are objects
     try {
         await connectDB();
-    } catch(error) {
-        console.log(`Something went wrong: ${error}`);
+        await business.findOneAndUpdate(query, update);
+    } catch (error) {
+        console.log("something went wrong", error);
+    } finally {
+        try {
+            await mongoose.disconnect();
+            console.log("db disconnected");
+        } catch (error) {
+            console.log("Something went wrong disconnected", error);
+        }
     }
-    business.findOneAndUpdate({
-        name: name,
-        category: category,
-        location: location,
-        deal: deal,
-        verified: verified,
-        rating: rating,
-        pendingDeal: pendingDeal
-    },
-    {
-        name:nameUpdate,
-        category: categoryUpdate,
-        location: locationUpdate,
-        deal: dealUpdate,
-        verified: verifiedUpdate,
-        rating: ratingUpdate,
-        pendingDeal: pendingDealUpdate
-    });
-    await disconnectDB();
 };
 
 async function deleteBusiness(name, category, location, deal, verified, rating, pendingDeal) {
     try {
         await connectDB();
-    } catch(error) {
-        console.log(`Something went wrong: ${error}`);
+        await business.deleteOne({
+            name: name,
+            category: category,
+            location: location,
+            deal: deal,
+            verified: verified,
+            rating: rating,
+            pendingDeal: pendingDeal
+        });
+    } catch (error) {
+        console.log("something went wrong", error);
+    } finally {
+        try {
+            await mongoose.disconnect();
+            console.log("db disconnected");
+        } catch (error) {
+            console.log("Something went wrong disconnected", error);
+        }
     }
-    business.deleteOne({
-        name: name,
-        category: category,
-        location: location,
-        deal: deal,
-        verified: verified,
-        rating: rating,
-        pendingDeal: pendingDeal
-    });
-    await disconnectDB();
 };
 
-export default {addBusiness, findBusiness, modifyBusiness, deleteBusiness};
+export {addBusiness, findBusiness, modifyBusiness, deleteBusiness};
