@@ -16,7 +16,7 @@ import {addBusiness, findBusiness, modifyBusiness, deleteBusiness} from "./db.js
 //     }
 // }
 
-//addBusiness("test", "bruh");
+businessQuery.addBusiness("test", "bruh");
 
 //findBusiness({name:"test"});
 
