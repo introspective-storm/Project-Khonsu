@@ -1,59 +1,53 @@
 import React, { useState, useEffect } from 'react';
+import Maps from "../components/maps/googleMaps";
+import BusinessList from '../components/page-components/BusinessList';
+import AuthDetails from '../components/auth/authDetails';
+import SignIn from "../components/auth/signIn";
+import SignUp from "../components/auth/signUp";
+import { auth } from "../firebaseConfig";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
-function BusinessList() {
-  const [businesses, setBusinesses] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const BusinessDashboard = () => {
+  //TODO: move authentication logic somewhere else, and just call this function when needed.
+  const [authUser, setAuthUser] = useState(null);
 
-  useEffect(() => {
-    const fetchBusinesses = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/api/businesses/find',
-            {
-                method: "POST",
-                body: JSON.stringify({}),
+    useEffect(() => {
+        const listen = onAuthStateChanged(auth, (user)=> {
+            if (user) {
+                setAuthUser(user);
+            } else {
+                setAuthUser(null)
             }
-        )
-        if (!response.ok) {
-          throw new Error('Failed to fetch businesses');
-        }
-        const data = await response.json();
-        setBusinesses(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+        });
+        // return () => {
+        //     listen();
+        // }
+    }, []);
+    const userSignOut = () => {
+        signOut(auth).then(() => {
+            console.log("signed out")
+        }).catch(error => console.log(error))
+    }
 
-    fetchBusinesses();
-  }, []);
-
-  if (loading) {
-    return <p>Loading businesses...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
-
-  return (
-    <div>
-      <h2>Businesses</h2>
-      {businesses.length === 0 ? (
-        <p>No businesses found.</p>
-      ) : (
-        <ul>
-          {businesses.map((business) => (
-            <li key={business._id}> {/* Assuming your MongoDB documents have an _id field */}
-              {business.name} - {business.category} - {business.location}
-              {/* Add other business properties as needed */}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+  return(
+    <>
+    {
+      authUser ? 
+      <>
+      <div class= "map-container">
+      <Maps/>
+      </div>
+      <BusinessList />
+      <AuthDetails />
+      </>
+      :
+      <>
+      <SignIn />
+      <SignUp />
+      </>
+    }
+    </>
   );
-}
+};
 
-export default BusinessList;
+export default BusinessDashboard;

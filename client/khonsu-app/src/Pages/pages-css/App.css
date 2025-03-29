@@ -40,3 +40,28 @@
 .read-the-docs {
   color: #888;
 }
+
+.map-container {
+  display: flex;
+  justify-content:center;
+  align-content: center;
+  align-items: center;
+  height: 25rem;
+  width: 50rem;
+  border: 2px solid rgb(221, 221, 221);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.card-container {
+  display: inline-flex;
+}
+
+.cards {
+  display:inline-block;
+  height: 10rem;
+  width : 15rem;
+  margin: 1rem;
+  border: 2px solid rgb(221, 221, 221);
+  border-radius: 20px;
+}
