@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 function AdminList() {
-  const [businesses, setBusinesses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [businesses, setBusinesses] = useState([]); // Consider fetching businesses in a separate useEffect
+  const [loading, setLoading] = useState(false); // No initial loading needed for form submission
   const [error, setError] = useState(null);
 
   const [name, setName] = useState('');
@@ -10,85 +10,74 @@ function AdminList() {
   const [location, setLocation] = useState('');
   const [deal, setDeal] = useState('');
 
-  useEffect(() => {
-    const addNewBusiness = async (e) => {
-        e.preventDefault();
-      try {
-        const response = await fetch(import.meta.env.VITE_API_ENDPOINT_ADD_BUSINESS,
-            {
-                method: "POST",
-                body: JSON.stringify({name, category, location, deal}),
-            }
-        )
-        if (!response.ok) {
-          throw new Error('Failed to fetch businesses');
-        }
-        const data = await response.json();
-        setBusinesses(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+  const addNewBusiness = async (e) => {
+    //e.preventDefault(); // Prevent default form submission
+    setLoading(true); //set loading to true when you make the request
+    setError(null); //reset error
+    try {
+      const response = await fetch(import.meta.env.VITE_API_ENDPOINT_ADD_BUSINESS, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // Important for sending JSON
+        },
+        body: JSON.stringify({ name, category, location, deal }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add business');
       }
-    };
 
-    addNewBusiness();
-  }, []);
+      // Handle the response if needed. For example, add the new business to the businesses state.
+      // const data = await response.json();
+      // setBusinesses([...businesses, data]);
 
-  if (loading) {
-    return <p>Loading businesses...</p>;
-  }
+      //reset the form
+      setName('');
+      setCategory('');
+      setLocation('');
+      setDeal('');
 
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
-    <h2>Businesses</h2>
-    {businesses.length === 0 ? (
-      <p>No businesses found.</p>
-    ) : (
-      <div class="card-container">
-        {businesses.map((business) => (
-          <div class="cards" key={business._id}>
-            <h2>{business.name}</h2>
-            <p>{business.category}</p>
-            <p>{business.location}</p>
-          </div>
-        ))}
-      </div>
-    )}
-    <form onSubmit={}>
+      <form onSubmit={addNewBusiness}>
         <h1>Add Business</h1>
-        <input 
-        type="text" 
-        placeholder="name"
-        value={name}
-        onChange={(e)=> setName(e.target.value)}
+        <input
+          type="text"
+          placeholder="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
-        <input 
-        type="text" 
-        placeholder="category"
-        value={category}
-        onChange={(e)=> setCategory(e.target.value)}
+        <input
+          type="text"
+          placeholder="category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
         />
-        <input 
-        type="text" 
-        placeholder="location"
-        value={location}
-        onChange={(e)=> setLocation(e.target.value)}
+        {/* <input
+          type="text"
+          placeholder="location"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
         />
-        <input 
-        type="text" 
-        placeholder="deal"
-        value={deal}
-        onChange={(e)=> setDeal(e.target.value)}
-        />
-        <button type="submit">Submit Business</button>
-    </form>
-  </div>
-  
+        <input
+          type="text"
+          placeholder="deal"
+          value={deal}
+          onChange={(e) => setDeal(e.target.value)}
+        /> */}
+        <button type="submit" disabled = {loading}>
+          {loading? "Submitting...": "Submit Business"}
+        </button>
+        {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+      </form>
+    </div>
   );
 }
 

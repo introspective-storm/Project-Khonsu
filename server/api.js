@@ -7,8 +7,8 @@ api.use(express.json());
 // API endpoint for adding businesses
 api.post("/businesses/add", async (req, res) => {
     try {
-        const {name, category, location, deal, verified, rating, pendingDeal} = req.body;
-        await addBusiness(name, category, location, deal, verified, rating, pendingDeal);
+        const {name, category, location, deal} = req.body; //{verified, rating, pendingDeal}-add later
+        await addBusiness(name, category); //(,location, deal, verified, rating, pendingDeal)-add later
         res.status(201).json({message: "Business added succesfully"});
     } catch(error) {
         console.error("Error adding new Business", error);
