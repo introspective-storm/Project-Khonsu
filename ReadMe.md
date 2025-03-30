@@ -11,12 +11,12 @@ This package is for everything front end. We will be using React with Vite.
 To get the react-app started, use either:
 
 ```bash
-cd client/khonsu-app
-npm run dev
+npm start-client
 ```
 Or
 ```bash
-npm start-client
+cd client/khonsu-app
+npm run dev
 ```
 
 ### Server
