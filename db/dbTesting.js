@@ -16,9 +16,11 @@ import {addBusiness, findBusiness, modifyBusiness, deleteBusiness} from "./db.js
 //     }
 // }
 
-addBusiness("test", "bruh");
+//addBusiness("test", "bruh");
 
 //findBusiness({name:"test"});
 
 //modifyBusiness({name:"test"}, {name: "cringe"});
+
+deleteBusiness("test", "bruh");
 

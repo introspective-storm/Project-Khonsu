@@ -7,7 +7,7 @@ api.use(express.json());
 // API endpoint for adding businesses
 api.post("/businesses/add", async (req, res) => {
     try {
-        const {name, category, location, deal} = req.body; //{verified, rating, pendingDeal}-add later
+        const {name, category } = req.body; //{location, deal, verified, rating, pendingDeal}-add later
         await addBusiness(name, category); //(,location, deal, verified, rating, pendingDeal)-add later
         res.status(201).json({message: "Business added succesfully"});
     } catch(error) {
@@ -42,10 +42,12 @@ api.put('/businesses/modify', async (req, res) => {
 });
 
 // API endpoint for deleting a business
-api.delete('/businesses/delete', async (req, res) => {
+api.post('/businesses/delete', async (req, res) => {
     try {
-        const { name, category, location, deal, verified, rating, pendingDeal } = req.body;
-        await deleteBusiness(name, category, location, deal, verified, rating, pendingDeal);
+        console.log("received request")
+        const { name, category } = req.body; // {location, deal, verified, rating, pendingDeal} add later
+        console.log(name, category)
+        await deleteBusiness(name, category ); //(location, deal, verified, rating, pendingDeal)-add later
         res.status(200).json({ message: 'Business deleted successfully' });
     } catch (error) {
         console.error('Error deleting business:', error);

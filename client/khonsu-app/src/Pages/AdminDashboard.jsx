@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Maps from "../components/maps/googleMaps";
 import BusinessList from '../components/page-components/BusinessList';
-import AdminList from '../components/page-components/AdminList';
+import AdminListAdd from '../components/page-components/AdminListAdd';
+import AdminListDelete from '../components/page-components/AdminListDelete'
 import AuthDetails from '../components/auth/authDetails';
 import SignIn from "../components/auth/signIn";
 import SignUp from "../components/auth/signUp";
@@ -36,7 +37,8 @@ const AdminDashboard = () => {
       authUser ? 
       <>
       <BusinessList/>
-      <AdminList />
+      <AdminListAdd />
+      <AdminListDelete />
       <AuthDetails />
       </>
       :

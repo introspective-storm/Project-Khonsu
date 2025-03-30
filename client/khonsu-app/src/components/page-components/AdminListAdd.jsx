@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 
-function AdminList() {
+function AdminListAdd() {
   const [businesses, setBusinesses] = useState([]); // Consider fetching businesses in a separate useEffect
   const [loading, setLoading] = useState(false); // No initial loading needed for form submission
   const [error, setError] = useState(null);
+  const [loadingDelete, setLoadingDelete] = useState(false); // No initial loading needed for form submission
+  const [errorDelete, setErrorDelete] = useState(null);
+
 
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
   const [location, setLocation] = useState('');
   const [deal, setDeal] = useState('');
+
+  const [nameDelete, setNameDelete] = useState('');
+  const [categoryDelete, setCategoryDelete] = useState('');
 
   const addNewBusiness = async (e) => {
     //e.preventDefault(); // Prevent default form submission
@@ -20,7 +26,7 @@ function AdminList() {
         headers: {
           'Content-Type': 'application/json', // Important for sending JSON
         },
-        body: JSON.stringify({ name, category, location, deal }),
+        body: JSON.stringify({ name, category }),
       });
 
       if (!response.ok) {
@@ -34,8 +40,8 @@ function AdminList() {
       //reset the form
       setName('');
       setCategory('');
-      setLocation('');
-      setDeal('');
+      // setLocation('');
+      // setDeal('');
 
     } catch (err) {
       setError(err.message);
@@ -81,4 +87,4 @@ function AdminList() {
   );
 }
 
-export default AdminList;
+export default AdminListAdd;
