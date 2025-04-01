@@ -11,7 +11,7 @@ This package is for everything front end. We will be using React with Vite.
 To get the react-app started, use either:
 
 ```bash
-npm start-client
+npm run start-client
 ```
 Or
 ```bash
@@ -24,7 +24,7 @@ Contains all backend scripts and server managment for Khonsu.
 To get the server started, use either:
 
 ```bash
-npm server-start
+npm run server-start
 ```
 Or
 ```bash
