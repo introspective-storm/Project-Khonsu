@@ -1,19 +1,11 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {APIProvider, Map, Marker} from '@vis.gl/react-google-maps';
+import { haversine_distanceMiles, haversine_distanceKilometers } from "./distanceBetweenPoints";
+import business from "../../../../../db/schema";
+//import { ConditionalMarkers } from "./markers";
 
-const Maps = () => {
-
-  const mapContainerStyle = {
-    width: "100%",
-    height: "100%",
-  };
-
-  const center = {
-    lat: 37.7749, // Default latitude
-    lng: -122.4194, // Default longitude
-  };
-
+const Maps = ({businesses, ConditionalMarkers}) => {
     return(
         <>
         <APIProvider 
@@ -22,11 +14,12 @@ const Maps = () => {
           <Map
           style={mapContainerStyle}
           defaultZoom={13}
-          defaultCenter={center}
+          defaultCenter={{lat: center.coordinates[1], lng: center.coordinates[0]}}
           gestureHandling={"greedy"}
           disableDefaultUI
           >
-            <Marker position={center} />
+            <Marker position={{lat: center.coordinates[1], lng: center.coordinates[0]}} />
+            {}
           </Map>
         </APIProvider>
         </>

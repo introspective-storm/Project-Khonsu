@@ -40,6 +40,7 @@ async function findBusiness(query) { //query is an object
     try {
         await connectDB();
         const foundBusiness = await business.find(query);
+        //console.log(foundBusiness);
         return foundBusiness;
     } catch (error) {
         console.log("something went wrong", error);
