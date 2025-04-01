@@ -1,6 +1,13 @@
 # Project Khonsu
 This project consists of multiple packages that make up the Khonsu (a working name) tech stack.
 
+To get started:
+```bash
+npm run install
+```
+
+This will install all the dependiences for each package.
+
 ### DB
 This package contains the scripts needed to maintain the Khonsu database. The database is MongoDB, with Mongoose used to create schemas to maintain constistency.
 
