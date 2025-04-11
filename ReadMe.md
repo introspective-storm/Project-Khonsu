@@ -23,7 +23,6 @@ npm run start-client
 Or
 ```bash
 cd client/khonsu-app
-npm install -g vite
 npm run dev
 ```
 
