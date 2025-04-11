@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "install-server": "cd server && npm install && cd ..",
     "install-db": "cd db && npm install && cd ..",
-    "install-front-end": "cd db && npm install && cd ..",
+    "install-front-end": "cd client/khonsu-app && npm install && cd ..",
     "install": "npm run install-server && npm run install-db && npm run install-front-end",
     "start-server": "cd server && npm start && cd ..",
     "start-client": "cd client/khonsu-app && npm run dev && cd.."
